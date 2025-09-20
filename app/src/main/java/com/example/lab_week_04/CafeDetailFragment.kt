@@ -7,15 +7,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
-private const val ARG_TITLE = "title"
+private const val ARG_TITLE_RES = "title_res"
+private const val ARG_DESC_RES = "desc_res"
 
 class CafeDetailFragment : Fragment() {
 
-    private var title: String? = null
+    private var titleRes: Int = 0
+    private var descRes: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let { title = it.getString(ARG_TITLE) }
+        arguments?.let {
+            titleRes = it.getInt(ARG_TITLE_RES)
+            descRes = it.getInt(ARG_DESC_RES)
+        }
     }
 
     override fun onCreateView(
@@ -27,15 +32,18 @@ class CafeDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val textView = view.findViewById<TextView>(R.id.cafe_title)
-        textView?.text = title
+        view.findViewById<TextView>(R.id.cafe_title)?.text = getString(titleRes)
+        view.findViewById<TextView>(R.id.cafe_desc)?.text = getString(descRes)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(title: String) =
+        fun newInstance(titleRes: Int, descRes: Int) =
             CafeDetailFragment().apply {
-                arguments = Bundle().apply { putString(ARG_TITLE, title) }
+                arguments = Bundle().apply {
+                    putInt(ARG_TITLE_RES, titleRes)
+                    putInt(ARG_DESC_RES, descRes)
+                }
             }
     }
 }
